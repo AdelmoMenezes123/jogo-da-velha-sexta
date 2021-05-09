@@ -378,9 +378,10 @@ const tic_tac_toe = {
 
         if (this.is_game_over()) {
             this.game_is_over();
-
-            p1.innerHTML = 'Deu Velha'
-            p2.innerHTML = 'Deu Velha'
+            let velha = 1
+            p1.innerHTML = `Deu Velha ${velha++}`
+            p2.innerHTML = `Deu Velha ${velha++}`
+            velha++
         }
 
         if (winning_sequences_index >= 0) {
@@ -414,12 +415,14 @@ const tic_tac_toe = {
                     this.boardx4[this.winning_sequences[i][4]] == symbol &&
                     this.boardx4[this.winning_sequences[i][5]] == symbol
                 ) {
+                    let velha = 0 ;
                     if (symbol == 'O') {
-                        p1.innerHTML = 'winning'
+                        p1.innerHTML = `winning ${velha+=1}`
                     }
                     else if (symbol == 'X') {
-                        p2.innerHTML = 'winning'
+                        p2.innerHTML = `winning ${velha+=1}`
                     }
+                    velha ++;
                     return i;
                 }
             }

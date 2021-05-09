@@ -4,7 +4,7 @@ body {
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  justify-content: center;  
+  justify-content: center;
 }
 
 .game {
@@ -16,13 +16,15 @@ body {
   display: grid;
 }
 
-.x4{
+.x4 {
   grid-template: repeat(4, 1fr) / repeat(4, 1fr);
 }
-.x5{
+
+.x5 {
   grid-template: repeat(5, 1fr) / repeat(5, 1fr);
 }
-.x6{
+
+.x6 {
   grid-template: repeat(6, 1fr) / repeat(6, 1fr);
 }
 
@@ -44,45 +46,60 @@ body {
   padding: 10px 20px
 }
 
-.game > div.winner {
+.game>div.winner {
   background: yellow;
 }
 
-.game > div.winner > span {
+.game>div.winner>span {
   color: blue;
 }
 
-
-.area{
-  position: absolute;
-  top: 0;
-
-  display: flex;
-  gap: 13px;
-}
-
-.separe{
-height: 16vh;
-  background: red;
+.separe {
+  height: 16vh;
+  background: blueviolet;
   width: 4px;
 }
 
-#player-1{
+#player-1 {
   position: relative;
   top: 10vh;
   font-size: 1rem;
-  left: -6vw;
+  left: -100px;
 }
 
-#player-2{
+#player-2 {
   position: relative;
   top: 10vh;
   font-size: 1rem;
-  left: -6vw;
+  right: 100px;
 }
 
+.label {
+  display: block;
+}
 
+.from-group {
+  display: grid;
+  column-gap: 5px;
+}
 
+.from-group label {
+  font-size: 1.1rem;
+}
+
+.from-group input {
+  font-size: 1.4rem;
+  height: 2rem;
+  width: 60px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.campoform span {
+  font-size: 1.1rem;
+  display: block;
+  margin: 10px 0 0px 0;
+}
 
 @media (min-width: 600px) {
   .game {
@@ -95,10 +112,33 @@ height: 16vh;
   .game>div {
     border-radius: 2px;
   }
+
+  .campoform {
+    margin-left: auto;
+    margin-top: -150px;
+  }
+
+  .area {
+    margin-right: auto;
+    padding-top: 10vh;
+    display: flex;
+    gap: 13px;
+  }
 }
 
 @media (min-width: 1024px) {
   .btn {
     cursor: pointer
+  }
+}
+
+@media (max-width: 1024px) {
+  .campoform {
+    margin: auto;
+  }
+
+  .area {
+    display: flex;
+    column-gap: 1vh;
   }
 }
