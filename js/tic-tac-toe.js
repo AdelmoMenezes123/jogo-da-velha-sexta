@@ -451,6 +451,6 @@ const tic_tac_toe = {
     },
 
     draw() {
-        if (!!x4) this.container_element.innerHTML = this.boardx4.map((element, index) => `<div onclick="tic_tac_toe.make_play('${index}')"> ${element} ${index} </div>`).reduce((content, current) => content + current);
+        if (!!x4) this.container_element.innerHTML = this.boardx4.map((element, index) => `<div onclick="tic_tac_toe.make_play('${index}')"> ${element} </div>`).reduce((content, current) => content + current);
     },
 };
