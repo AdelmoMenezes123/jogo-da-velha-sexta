@@ -14,18 +14,19 @@ body {
   background-color: #34495e;
   color: #fff;
   display: grid;
+  margin-top: 12vh;
 }
 
 .x4 {
-  grid-template: repeat(4, 1fr) / repeat(4, 1fr);
+  grid-template: repeat(4, 1fr) / repeat(4, 1fr) !important;
 }
 
 .x5 {
-  grid-template: repeat(5, 1fr) / repeat(5, 1fr);
+  grid-template: repeat(5, 1fr) / repeat(5, 1fr) !important;
 }
 
 .x6 {
-  grid-template: repeat(6, 1fr) / repeat(6, 1fr);
+  grid-template: repeat(6, 1fr) / repeat(6, 1fr) !important;
 }
 
 .game>div {
@@ -107,6 +108,7 @@ body {
     height: 450px;
     border-radius: 10px;
     border: 6px solid #2c3e50;
+    margin-top: 30vh;
   }
 
   .game>div {
@@ -123,6 +125,8 @@ body {
     padding-top: 10vh;
     display: flex;
     gap: 13px;
+    margin-bottom: 10vh;
+
   }
 }
 
@@ -140,5 +144,18 @@ body {
   .area {
     display: flex;
     column-gap: 1vh;
+    margin: 4vh;
+  }
+
+  #player-1 {
+    top: 11vh;
+    font-size: .8rem;
+    left: -50px;
+  }
+  
+  #player-2 {
+    top: 11vh;
+    font-size: .8rem;
+    right: 50px;
   }
 }

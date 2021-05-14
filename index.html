@@ -2,45 +2,51 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="css/style.css">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>Tic Tac Toe</title>
+   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
 
-    <div class='game x4'></div>
-    <button class="btn" onclick="tic_tac_toe.restart()" title="Restart this game">Restart</button>
+   <div class='game'></div>
+   <button class="btn" onclick="tic_tac_toe.restart()" title="Restart this game">Restart</button>
 
 
-    <div class="area">
-        <h1>Player 1</h1>
-        <div id="player-1"></div>
-        <div class="separe"></div>
-        <h1>Player 2</h1>
-        <div id="player-2"></div>
-    </div>
+   <div class="area">
+      <h1>Player 1</h1>
+      <div id="player-1">
+         Winning:
+      </div>
+      <div class="separe"></div>
+      <h1>Player 2</h1>
+      <div id="player-2">
+         Winning:
+      </div>
+   </div>
 
-    <div class="campoform">
-        <div class="from-group">
-            <label for="">De 0 a 16 Qual campo voce quer bloquear?</label>
-            <input type="text" campo>
-        </div>
+   <div class="campoform">
+      <div class="from-group">
+         <label for="">Qual campo voce quer bloquear?</label>
+         <input type="text" campo>
+      </div>
 
-        <span>Qual tabela? </span>
-        <button class="btn" 4X4>4X4</button>
-        <button class="btn" 5X5>5X5</button>
-        <button class="btn" 6X6>6X6</button>
-    </div>
+      <span>Qual tabela? </span>
+      <button class="btn" onclick="matriz4x4()" x4>4X4</button>
+      <button class="btn" onclick="matriz5x5()" x5>5X5</button>
+      <button class="btn" onclick="matriz6x6()" x6>6X6</button>
+   </div>
 
-    <script src="js/tic-tac-toe.js"></script>
-    <script>
-        tic_tac_toe.init(document.querySelector('.game'));
-        tic_tac_toe.start();
-    </script>
+   <script src="js/tic-tac-toe.js"></script>
+   <script>
+      function query(params) {
+         document.querySelector(params).click()
+      }
+         tic_tac_toe.init(document.querySelector('.game'));
+   </script>
 
 </body>
 

@@ -7,32 +7,52 @@ x6 = document.querySelector('.x6')
 p1 = document.getElementById('player-1')
 p2 = document.getElementById('player-2')
 
+var me = this;
+
+var jogadores = {
+    'O': [],
+    'X': []
+}
+
+var matriz = []
+
+function matriz4x4() {
+    matriz = [];
+    matriz.push([{ 0: null }, { 1: null }, { 2: null }, { 3: null }]);
+    matriz.push([{ 0: null }, { 1: null }, { 2: null }, { 3: null }]);
+    matriz.push([{ 0: null }, { 1: null }, { 2: null }, { 3: null }]);
+    matriz.push([{ 0: null }, { 1: null }, { 2: null }, { 3: null }]);
+    document.querySelector('.game').classList.add('x4');
+    document.querySelector('.game').classList.remove('x5','x6')
+    tic_tac_toe.start();
+}
+
+function matriz5x5() {
+    matriz4x4();
+    matriz.forEach(linha => {
+        linha.push({ 4: null });
+    });
+    matriz.push([{ 0: null }, { 1: null }, { 2: null }, { 3: null }, { 4: null }]);
+    document.querySelector('.game').classList.add('x5');
+    document.querySelector('.game').classList.remove('x4','x6')
+    tic_tac_toe.start();
+}
+
+function matriz6x6() {
+    matriz4x4();
+    matriz.forEach(linha => {
+        linha.push({ 4: null }, { 5: null });
+    });
+
+    matriz.push([{ 0: null }, { 1: null }, { 2: null }, { 3: null }, { 4: null }, { 5: null }]);
+    matriz.push([{ 0: null }, { 1: null }, { 2: null }, { 3: null }, { 4: null }, { 5: null }]);
+    document.querySelector('.game').classList.add('x6');
+    document.querySelector('.game').classList.remove('x5','x4')
+    tic_tac_toe.start();
+}
+
+
 const tic_tac_toe = {
-    // ATTRIBUTES
-    boardx4: [
-        '', '', '', '',
-        '', '', '', '',
-        '', '', '', '',
-        '', '', '', ''
-    ],
-
-    boardx5: [
-        '', '', '', '', '',
-        '', '', '', '', '',
-        '', '', '', '', '',
-        '', '', '', '', '',
-        '', '', '', '', ''
-    ],
-
-    boardx6: [
-        '', '', '', '', '', '',
-        '', '', '', '', '', '',
-        '', '', '', '', '', '',
-        '', '', '', '', '', '',
-        '', '', '', '', '', '',
-        '', '', '', '', '', ''
-    ],
-
 
     symbols: {
         options: ['O', 'X'],
@@ -44,418 +64,506 @@ const tic_tac_toe = {
     player1: 'player 1',
     player2: 'Player 2',
 
-    // winn:{
-    //     qtd:0,
-    //     type=null,
-    // },
+    win1: 1,
+    win2: 1,
 
     container_element: null,
     gameover: false,
-    winning_sequences: [
-        [0, 1, 2, 3, 6, 9], // 0 1 2 
-        [0, 1, 2, 3, 7, 11],//0 1 2       
-        [0, 1, 2, 4, 5, 6], // 0 1 2
-        [0, 1, 2, 4, 8, 12], // 0 1 2 
-        [0, 1, 2, 4, 9, 14], // 0 1 2 
-        [0, 1, 2, 5, 6, 7], // 0 1 2 
-        [0, 1, 2, 5, 9, 13], // 0 1 2 
-        [0, 1, 2, 5, 10, 15], // 0 1 2 
-        [0, 1, 2, 6, 9, 12], // 0 1 2 
-        [0, 1, 2, 6, 10, 14], // 0 1 2 
-        [0, 1, 2, 7, 10, 13], // 0 1 2 
-        [0, 1, 2, 7, 11, 15], // 0 1 2 
-        [0, 1, 2, 8, 9, 10], // 0 1 2 
-        [0, 1, 2, 9, 10, 11], // 0 1 2 
-        [0, 1, 2, 12, 13, 14], // 0 1 2 
-        [0, 1, 2, 13, 14, 15], // 0 1 2 
-
-        [0, 4, 8, 1, 2, 3], //  0 4 8
-        [0, 4, 8, 1, 5, 9], //  0 4 8
-        [0, 4, 8, 1, 6, 11], //  0 4 8
-        [0, 4, 8, 2, 6, 10], //  0 4 8
-        [0, 4, 8, 3, 6, 9], //  0 4 8
-        [0, 4, 8, 3, 7, 11],// 0 4 8
-        [0, 4, 8, 5, 6, 7], //  0 4 8
-        [0, 4, 8, 5, 9, 13], //  0 4 8
-        [0, 4, 8, 5, 10, 15], //  0 4 8
-        [0, 4, 8, 6, 9, 12], //  0 4 8
-        [0, 4, 8, 6, 10, 14], //  0 4 8
-        [0, 4, 8, 7, 10, 13], //  0 4 8
-        [0, 4, 8, 7, 11, 15], //  0 4 8
-        [0, 4, 8, 9, 10, 11], //  0 4 8
-        [0, 4, 8, 12, 13, 14], //  0 4 8
-        [0, 4, 8, 13, 14, 15], //  0 4 8
-
-        [0, 5, 10, 1, 2, 3],// 0 5 10
-        [0, 5, 10, 1, 6, 11],// 0 5 10
-        [0, 5, 10, 3, 6, 9],// 0 5 10
-        [0, 5, 10, 3, 7, 11],// 0 5 10
-        [0, 5, 10, 4, 8, 12],// 0 5 10
-        [0, 5, 10, 4, 9, 14],// 0 5 10
-        [0, 5, 10, 6, 9, 12],// 0 5 10
-        [0, 5, 10, 12, 13, 14],// 0 5 10
-        [0, 5, 10, 13, 14, 15],// 0 5 10
-
-        [1, 2, 3, 0, 4, 8],//1 2 3
-        [1, 2, 3, 0, 5, 10],//1 2 3
-        [1, 2, 3, 4, 5, 6],//1 2 3
-        [1, 2, 3, 4, 8, 12],//1 2 3
-        [1, 2, 3, 4, 9, 14],//1 2 3
-        [1, 2, 3, 5, 6, 7],//1 2 3
-        [1, 2, 3, 5, 9, 13],//1 2 3
-        [1, 2, 3, 5, 10, 15],//1 2 3
-        [1, 2, 3, 6, 10, 14],//1 2 3
-        [1, 2, 3, 6, 9, 12],//1 2 3
-        [1, 2, 3, 7, 10, 13],//1 2 3
-        [1, 2, 3, 7, 11, 15],//1 2 3
-        [1, 2, 3, 8, 9, 10],//1 2 3
-        [1, 2, 3, 9, 10, 11],//1 2 3
-        [1, 2, 3, 12, 13, 14],//1 2 3
-        [1, 2, 3, 13, 14, 15],//1 2 3
-
-        [1, 5, 9, 0, 4, 8],//1 5 9
-        [1, 5, 9, 2, 6, 10],//1 5 9
-        [1, 5, 9, 3, 7, 11],//1 5 9
-        [1, 5, 9, 4, 8, 12],//1 5 9
-        [1, 5, 9, 6, 10, 14],//1 5 9
-        [1, 5, 9, 7, 11, 15],//1 5 9
-        [1, 5, 9, 7, 10, 13],//1 5 9
-        [1, 5, 9, 12, 13, 14],//1 5 9
-        [1, 5, 9, 13, 14, 15],//1 5 9
-
-        [1, 6, 11, 0, 4, 8],// 1 6 11
-        [1, 6, 11, 0, 5, 10],// 1 6 11
-        [1, 6, 11, 2, 5, 8],// 1 6 11
-        [1, 6, 11, 4, 8, 12],// 1 6 11
-        [1, 6, 11, 4, 9, 14],// 1 6 11
-        [1, 6, 11, 5, 9, 13],// 1 6 11
-        [1, 6, 11, 5, 10, 15],// 1 6 11
-        [1, 6, 11, 7, 10, 13],// 1 6 11
-        [1, 6, 11, 8, 9, 10],// 1 6 11
-        [1, 6, 11, 12, 13, 14],// 1 6 11
-        [1, 6, 11, 13, 14, 15],// 1 6 11
-
-        [2, 5, 8, 1, 6, 11],//2 5 8
-        [2, 5, 8, 3, 6, 9],//2 5 8
-        [2, 5, 8, 4, 9, 14],//2 5 8
-        [2, 5, 8, 6, 9, 12],//2 5 8
-        [2, 5, 8, 6, 10, 14],//2 5 8
-        [2, 5, 8, 7, 10, 13],//2 5 8
-        [2, 5, 8, 7, 11, 15],//2 5 8
-        [2, 5, 8, 9, 10, 11],//2 5 8
-        [2, 5, 8, 12, 13, 14],//2 5 8
-        [2, 5, 8, 13, 14, 15],//2 5 8
-
-        [2, 6, 10, 0, 4, 8],// 2 6 10
-        [2, 6, 10, 1, 6, 9],// 2 6 10
-        [2, 6, 10, 3, 7, 11],// 2 6 10
-        [2, 6, 10, 4, 8, 12],// 2 6 10
-        [2, 6, 10, 4, 9, 14],// 2 6 10
-        [2, 6, 10, 5, 9, 13],// 2 6 10
-        [2, 6, 10, 7, 11, 15],// 2 6 10
-        [2, 6, 10, 12, 13, 14],// 2 6 10
-        [2, 6, 10, 13, 14, 15],// 2 6 10
-
-        [3, 6, 9, 0, 1, 2],// 3 6 9
-        [3, 6, 9, 0, 4, 8],// 3 6 9
-        [3, 6, 9, 0, 5, 10],// 3 6 9
-        [3, 6, 9, 2, 5, 8],// 3 6 9
-        [3, 6, 9, 4, 8, 12],// 3 6 9
-        [3, 6, 9, 5, 10, 15],// 3 6 9
-        [3, 6, 9, 7, 10, 13],// 3 6 9
-        [3, 6, 9, 7, 11, 15],// 3 6 9
-        [3, 6, 9, 12, 13, 14],// 3 6 9
-        [3, 6, 9, 13, 14, 15],// 3 6 9
-
-
-        [3, 7, 11, 0, 1, 2],// 3 7 11
-        [3, 7, 11, 0, 4, 8],// 3 7 11
-        [3, 7, 11, 0, 5, 10],// 3 7 11
-        [3, 7, 11, 1, 5, 9],// 3 7 11
-        [3, 7, 11, 2, 5, 8],// 3 7 11
-        [3, 7, 11, 2, 6, 10],// 3 7 11
-        [3, 7, 11, 4, 5, 6],// 3 7 11
-        [3, 7, 11, 4, 8, 12],// 3 7 11
-        [3, 7, 11, 4, 9, 14],// 3 7 11
-        [3, 7, 11, 5, 9, 13],// 3 7 11
-        [3, 7, 11, 6, 10, 14],// 3 7 11
-        [3, 7, 11, 6, 9, 12],// 3 7 11
-        [3, 7, 11, 12, 13, 14],// 3 7 11
-        [3, 7, 11, 13, 14, 15],// 3 7 11
-
-        [4, 5, 6, 0, 1, 2],// 4 5 6
-        [4, 5, 6, 1, 2, 3],// 4 5 6
-        [4, 5, 6, 3, 7, 11],// 4 5 6
-        [4, 5, 6, 7, 11, 15],// 4 5 6
-        [4, 5, 6, 7, 10, 13],// 4 5 6
-        [4, 5, 6, 8, 9, 10],// 4 5 6
-        [4, 5, 6, 9, 10, 11],// 4 5 6
-        [4, 5, 6, 12, 13, 14],// 4 5 6
-        [4, 5, 6, 13, 14, 15],// 4 5 6
-
-        [4, 8, 12, 0, 1, 2],// 4 8 12
-        [4, 8, 12, 0, 5, 10],// 4 8 12
-        [4, 8, 12, 1, 2, 3],// 4 8 12
-        [4, 8, 12, 1, 6, 11],// 4 8 12
-        [4, 8, 12, 1, 5, 9],// 4 8 12
-        [4, 8, 12, 2, 6, 10],// 4 8 12
-        [4, 8, 12, 3, 6, 9],// 4 8 12
-        [4, 8, 12, 3, 7, 11],// 4 8 12
-        [4, 8, 12, 5, 6, 7],// 4 8 12
-        [4, 8, 12, 5, 9, 13],// 4 8 12
-        [4, 8, 12, 5, 10, 15],// 4 8 12
-        [4, 8, 12, 6, 10, 14],// 4 8 12
-        [4, 8, 12, 6, 9, 12],// 4 8 12
-        [4, 8, 12, 7, 10, 13],// 4 8 12
-        [4, 8, 12, 7, 11, 15],// 4 8 12
-        [4, 8, 12, 9, 10, 11],// 4 8 12
-        [4, 8, 12, 13, 14, 15],// 4 8 12
-
-        [4, 9, 14, 0, 1, 2],// 14 9 4
-        [4, 9, 14, 0, 5, 10],// 14 9 4
-        [4, 9, 14, 1, 2, 3],// 14 9 4
-        [4, 9, 14, 1, 6, 11],// 14 9 4
-        [4, 9, 14, 2, 5, 8],// 14 9 4
-        [4, 9, 14, 2, 6, 10],// 14 9 4
-        [4, 9, 14, 5, 6, 7],// 14 9 4
-        [4, 9, 14, 5, 10, 15],// 14 9 4
-        [4, 9, 14, 7, 11, 15],// 14 9 4
-        [4, 9, 14, 7, 10, 13],// 14 9 4
-
-        [5, 6, 7, 0, 1, 2],// 5 6 7
-        [5, 6, 7, 0, 4, 8],// 5 6 7
-        [5, 6, 7, 1, 2, 3],// 5 6 7
-        [5, 6, 7, 4, 9, 14],// 5 6 7
-        [5, 6, 7, 4, 8, 12],// 5 6 7
-        [5, 6, 7, 8, 9, 10],// 5 6 7
-        [5, 6, 7, 9, 10, 11],// 5 6 7
-        [5, 6, 7, 12, 13, 14],// 5 6 7
-        [5, 6, 7, 13, 14, 15],// 5 6 7
-
-        [5, 9, 13, 0, 1, 2],// 5 9 13
-        [5, 9, 13, 0, 4, 8],// 5 9 13
-        [5, 9, 13, 1, 2, 3],// 5 9 13
-        [5, 9, 13, 1, 6, 11],// 5 9 13
-        [5, 9, 13, 2, 6, 10],// 5 9 13
-        [5, 9, 13, 3, 7, 11],// 5 9 13
-        [5, 9, 13, 4, 8, 12],// 5 9 13
-        [5, 9, 13, 6, 10, 14],// 5 9 13
-        [5, 9, 13, 7, 11, 15],// 5 9 13        
-
-        [5, 10, 15, 0, 1, 2],// 5 10 15
-        [5, 10, 15, 1, 2, 3],// 5 10 15
-        [5, 10, 15, 0, 4, 8],// 5 10 15
-        [5, 10, 15, 4, 8, 12],// 5 10 15
-        [5, 10, 15, 4, 9, 14],// 5 10 15
-        [5, 10, 15, 6, 9, 12],// 5 10 15
-        [5, 10, 15, 12, 13, 14],// 5 10 15
-
-        [6, 9, 12, 0, 1, 2],// 6 9 12
-        [6, 9, 12, 0, 4, 8],// 6 9 12
-        [6, 9, 12, 0, 5, 10],// 6 9 12
-        [6, 9, 12, 1, 2, 3],// 6 9 12
-        [6, 9, 12, 2, 5, 8],// 6 9 12
-        [6, 9, 12, 4, 8, 12],// 6 9 12
-        [6, 9, 12, 5, 10, 15],// 6 9 12
-        [6, 9, 12, 7, 10, 13],// 6 9 12
-        [6, 9, 12, 7, 11, 15],// 6 9 12
-        [6, 9, 12, 12, 13, 14],// 6 9 12
-        [6, 9, 12, 13, 14, 15],// 6 9 12
-
-        [6, 10, 14, 0, 1, 2],// 6 10 14
-        [6, 10, 14, 0, 4, 8],// 6 10 14
-        [6, 10, 14, 1, 2, 3],// 6 10 14
-        [6, 10, 14, 1, 5, 9],// 6 10 14
-        [6, 10, 14, 2, 5, 8],// 6 10 14
-        [6, 10, 14, 3, 7, 11],// 6 10 14
-        [6, 10, 14, 4, 8, 12],// 6 10 14
-        [6, 10, 14, 5, 9, 13],// 6 10 14
-        [6, 10, 14, 7, 11, 15],// 6 10 14
-
-        [7, 10, 13, 0, 1, 2],// 7 10 13
-        [7, 10, 13, 0, 4, 8],// 7 10 13
-        [7, 10, 13, 1, 2, 3],// 7 10 13
-        [7, 10, 13, 1, 5, 9],// 7 10 13
-        [7, 10, 13, 1, 6, 11],// 7 10 13
-        [7, 10, 13, 2, 5, 8],// 7 10 13
-        [7, 10, 13, 3, 6, 9],// 7 10 13
-        [7, 10, 13, 4, 8, 12],// 7 10 13
-        [7, 10, 13, 4, 5, 6],// 7 10 13
-        [7, 10, 13, 4, 9, 14],// 7 10 13
-        [7, 10, 13, 6, 9, 12],// 7 10 13
-
-        [7, 11, 15, 0, 1, 2],// 7 11 15
-        [7, 11, 15, 0, 4, 8],// 7 11 15
-        [7, 11, 15, 0, 5, 10],// 7 11 15
-        [7, 11, 15, 1, 2, 3],// 7 11 15
-        [7, 11, 15, 1, 5, 9],// 7 11 15
-        [7, 11, 15, 2, 5, 8],// 7 11 15
-        [7, 11, 15, 2, 6, 10],// 7 11 15
-        [7, 11, 15, 3, 6, 9],// 7 11 15
-        [7, 11, 15, 4, 8, 12],// 7 11 15
-        [7, 11, 15, 4, 5, 6],// 7 11 15
-        [7, 11, 15, 5, 9, 13],// 7 11 15
-        [7, 11, 15, 6, 9, 12],// 7 11 15
-        [7, 11, 15, 6, 10, 14],// 7 11 15
-        [7, 11, 15, 8, 9, 10],// 7 11 15
-        [7, 11, 15, 12, 13, 14],// 7 11 15
-
-        [8, 9, 10, 0, 1, 2],// 8 9 10
-        [8, 9, 10, 1, 2, 3],// 8 9 10
-        [8, 9, 10, 1, 6, 11],// 8 9 10
-        [8, 9, 10, 3, 7, 11],// 8 9 10
-        [8, 9, 10, 4, 5, 6],// 8 9 10
-        [8, 9, 10, 4, 9, 14],// 8 9 10
-        [8, 9, 10, 5, 6, 7],// 8 9 10
-        [8, 9, 10, 7, 11, 15],// 8 9 10
-        [8, 9, 10, 12, 13, 14],// 8 9 10
-        [8, 9, 10, 13, 14, 15],// 8 9 10
-
-        [9, 10, 11, 0, 1, 2],// 9 10 11
-        [9, 10, 11, 0, 4, 8],// 9 10 11
-        [9, 10, 11, 1, 2, 3],// 9 10 11
-        [9, 10, 11, 2, 5, 8],// 9 10 11
-        [9, 10, 11, 4, 8, 12],// 9 10 11
-        [9, 10, 11, 4, 5, 6],// 9 10 11
-        [9, 10, 11, 5, 6, 7],// 9 10 11
-        [9, 10, 11, 12, 13, 14],// 9 10 11
-        [9, 10, 11, 13, 14, 15],// 9 10 11
-
-        [12, 13, 14, 0, 1, 2], // 12 13 14
-        [12, 13, 14, 0, 4, 8], // 12 13 14
-        [12, 13, 14, 0, 5, 10], // 12 13 14
-        [12, 13, 14, 1, 2, 3], // 12 13 14
-        [12, 13, 14, 1, 6, 11], // 12 13 14
-        [12, 13, 14, 1, 5, 9], // 12 13 14
-        [12, 13, 14, 2, 5, 8], // 12 13 14
-        [12, 13, 14, 2, 6, 10], // 12 13 14
-        [12, 13, 14, 3, 6, 9], // 12 13 14
-        [12, 13, 14, 3, 7, 11], // 12 13 14
-        [12, 13, 14, 4, 5, 6], //12 13 14
-        [12, 13, 14, 5, 6, 7], // 12 13 14
-        [12, 13, 14, 5, 10, 15], // 12 13 14
-        [12, 13, 14, 7, 11, 15], // 12 13 14
-        [12, 13, 14, 8, 9, 10], // 12 13 14
-        [12, 13, 14, 9, 10, 11], // 12 13 14
-
-        [13, 14, 15, 0, 1, 2], // 13 14 15
-        [13, 14, 15, 0, 4, 8], // 13 14 15
-        [13, 14, 15, 0, 5, 10], // 13 14 15
-        [13, 14, 15, 1, 2, 3], // 13 14 15
-        [13, 14, 15, 1, 6, 11], // 13 14 15
-        [13, 14, 15, 1, 5, 9], // 13 14 15
-        [13, 14, 15, 2, 5, 8], // 13 14 15
-        [13, 14, 15, 2, 6, 10], // 13 14 15
-        [13, 14, 15, 3, 6, 9], // 13 14 15
-        [13, 14, 15, 3, 7, 11], // 13 14 15
-        [13, 14, 15, 4, 5, 6], //13 14 15
-        [13, 14, 15, 4, 8, 12], // 13 14 15
-        [13, 14, 15, 5, 6, 7], // 13 14 15
-        [13, 14, 15, 8, 9, 10], // 13 14 15
-        [13, 14, 15, 9, 10, 11], // 13 14 15
-
-    ],
 
     // FUNCTIONS
     init(container) {
         this.container_element = container;
+        console.log(matriz)
+
     },
 
     make_play(position) {
-        if ((!!x4) && (this.gameover || this.boardx4[position] !== '')) return false;
+        var linha;
+        var coluna;
 
-        else if ((!!x5) && (this.gameover || this.boardx5[position] !== '')) return false;
-        else if ((!!x6) && (this.gameover || this.boardx6[position] !== '')) return false;
+        // let obj = JSON.stringify(position).replace(/"/g, "")
 
-        const currentSymbol = this.symbols.options[this.symbols.turn_index];
-        if (!!x4) this.boardx4[position] = currentSymbol;
-        else if (!!x5) this.boardx5[position] = currentSymbol;
-        else if (!!x6) this.boardx6[position] = currentSymbol;
+        for (key in position) {
+            linha = key;
+            coluna = position[key];
 
-        this.draw();
+            for (keyObj in matriz[linha][coluna]) {
+                if (!matriz[linha][coluna][keyObj]) {
+                    const currentSymbol = this.symbols.options[this.symbols.turn_index];
+                    matriz[linha][coluna] = currentSymbol;
+                    this.draw();
 
-        const winning_sequences_index = this.check_winning_sequences(currentSymbol);
+                    let sequenci_win = this.verificarJogada(parseInt(linha), parseInt(coluna));
+                    if (sequenci_win && jogadores[currentSymbol].length == 6) {
+                        console.table(sequenci_win)
 
-        if (this.is_game_over()) {
-            this.game_is_over();
-            let velha = 1
-            p1.innerHTML = `Deu Velha ${velha++}`
-            p2.innerHTML = `Deu Velha ${velha++}`
-            velha++
-        }
+                        for (i in jogadores[currentSymbol]) {
+                            this.addClassWinner(jogadores[currentSymbol][i])
+                        }
 
-        if (winning_sequences_index >= 0) {
-
-            this.game_is_over();
-
-            this.stylize_winner_sequence(this.winning_sequences[winning_sequences_index]);
-        } else {
-            this.symbols.change();
-        }
-        return true;
-    },
-
-    stylize_winner_sequence(winner_sequence) {
-        winner_sequence.forEach((position) => {
-            this
-                .container_element
-                .querySelector(`div:nth-child(${position + 1})`)
-                .classList.add('winner');
-        });
-    },
-
-    check_winning_sequences(symbol) {
-        for (i in this.winning_sequences) {
-            if (!!x4) {
-                if (
-                    this.boardx4[this.winning_sequences[i][0]] == symbol &&
-                    this.boardx4[this.winning_sequences[i][1]] == symbol &&
-                    this.boardx4[this.winning_sequences[i][2]] == symbol &&
-                    this.boardx4[this.winning_sequences[i][3]] == symbol &&
-                    this.boardx4[this.winning_sequences[i][4]] == symbol &&
-                    this.boardx4[this.winning_sequences[i][5]] == symbol
-                ) {
-                    let velha = 0 ;
-                    if (symbol == 'O') {
-                        p1.innerHTML = `winning ${velha+=1}`
                     }
-                    else if (symbol == 'X') {
-                        p2.innerHTML = `winning ${velha+=1}`
-                    }
-                    velha ++;
-                    return i;
+                    this.symbols.change()
                 }
             }
-        };
-        return -1;
+        }
+        return true;
+
+
+
+        // if ((!!x4) && (this.gameover || matriz[position] !== '')) return false;
+
+        // else if ((!!x5) && (this.gameover || this.boardx5[position] !== '')) return false;
+        // else if ((!!x6) && (this.gameover || this.boardx6[position] !== '')) return false;
+
+        // const currentSymbol = this.symbols.options[this.symbols.turn_index];
+        // matriz[linha,coluna] = currentSymbol;
+
+        // if (!!x4) this.boardx4[position] = currentSymbol;
+        // else if (!!x5) this.boardx5[position] = currentSymbol;
+        // else if (!!x6) this.boardx6[position] = currentSymbol;
+
+        // this.draw();
+
+        // const winning_sequences_index = this.check_winning_sequences(currentSymbol);
+
+        // if (this.is_game_over()) {
+        //     this.game_is_over();
+        //     p1.innerHTML = `Deu Velha ${this.win1++}`
+        //     p2.innerHTML = `Deu Velha ${this.win2++}`
+        // }
+
+        // if (winning_sequences_index >= 0) {
+
+        // this.game_is_over();
+
+        // this.stylize_winner_sequence(this.winning_sequences[winning_sequences_index]);
+        // } else {
+        // this.symbols.change();
+        // }
+        // return true;
     },
+
+    verificarJogada(linha, coluna) {
+        let acertou = false;
+
+        if (this.verificarJogadaMesmaLinhaFrenteAtras(linha, coluna)) { acertou = matriz; }
+        else if (this.verificarJogadaMesmaLinhaFrente(linha, coluna)) { acertou = matriz; }
+        else if (this.verificarJogadaMesmaLinhaAtras(linha, coluna)) { acertou = matriz; }
+        else if (this.verificarJogadaMesmaColunaCimaBaixo(linha, coluna)) { acertou = matriz; }
+        else if (this.verificarJogadaMesmaColunaCima(linha, coluna)) { acertou = matriz; }
+        else if (this.verificarJogadaMesmaColunaBaixo(linha, coluna)) { acertou = matriz; }
+        else if (this.verificarJogadaMesmaDiagonalBaixoFrente(linha, coluna)) { acertou = matriz; }
+        else if (this.verificarJogadaMesmaDiagonalBaixoAtras(linha, coluna)) { acertou = matriz; }
+        else if (this.verificarJogadaMesmaDiagonalCimaAtras(linha, coluna)) { acertou = matriz; }
+        else if (this.verificarJogadaMesmaDiagonalCimaFrente(linha, coluna)) { acertou = matriz; }
+        else if (this.verificarJogadaMesmaDiagonalMeiofrente(linha, coluna)) { acertou = matriz; }
+        else if (this.verificarJogadaMesmaDiagonalMeioAtras(linha, coluna)) { acertou = matriz; }
+        else if (this.verificarJogadaMesmaDiagonalCimaFrenteBaixoAtras(linha, coluna)) { acertou = matriz }
+        return acertou
+    },
+
+    condicaoJogadas(condicao1, condicao2, condicao3) {
+        if ((condicao1 == condicao2) && (condicao1 == condicao3)) {
+            return true
+        } else {
+            return false
+        }
+    },
+
+    selecioneId(linha, coluna) {
+        return document.querySelector(`[onclick="tic_tac_toe.make_play({${linha}:${coluna}})"]`).getAttribute('id')
+    },
+
+    pesquisaIdSimbolo(linha, coluna, id) {
+        if (id !== undefined) {
+            return jogadores[matriz[linha][coluna]].includes(id)
+        }
+
+    },
+
+    addClassWinner(id) {
+        document.getElementById(id)
+            .classList.add('winner')
+    },
+
+    verificarJogadaMesmaLinhaFrenteAtras(linha, coluna) {
+        let simboloMeio = matriz[linha][coluna];
+        let simboloFrente = matriz[linha][coluna + 1];
+        let simboloAtras = matriz[linha][coluna - 1];
+        if (simboloFrente && simboloMeio && simboloAtras) {
+            let acertou = this.condicaoJogadas(simboloAtras, simboloMeio, simboloFrente);
+
+            if ((acertou) &&
+                !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                !this.pesquisaIdSimbolo(linha, coluna + 1, this.selecioneId(linha, coluna + 1)) &&
+                !this.pesquisaIdSimbolo(linha, coluna - 1, this.selecioneId(linha, coluna - 1))) {
+
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna + 1))
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna - 1))
+            } else {
+                acertou = false;
+            }
+            return acertou
+        }
+    },
+
+    verificarJogadaMesmaLinhaFrente(linha, coluna) {
+        let simboloInicio = matriz[linha][coluna];
+        let simboloFrente1 = matriz[linha][coluna + 1];
+        let simboloFrente2 = matriz[linha][coluna + 2];
+
+        if (simboloInicio && simboloFrente1 && simboloFrente2) {
+            let acertou = this.condicaoJogadas(simboloInicio, simboloFrente1, simboloFrente2)
+
+            if ((acertou) &&
+                !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                !this.pesquisaIdSimbolo(linha, coluna + 1, this.selecioneId(linha, coluna + 1)) &&
+                !this.pesquisaIdSimbolo(linha, coluna + 2, this.selecioneId(linha, coluna + 2))) {
+
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna + 1))
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna + 2))
+            } else {
+                acertou = false;
+            }
+            return acertou
+        }
+    },
+
+    verificarJogadaMesmaLinhaAtras(linha, coluna) {
+        let simboloInicio = matriz[linha][coluna];
+        let simboloAtras1 = matriz[linha][coluna - 1];
+        let simboloAtras2 = matriz[linha][coluna - 2];
+
+        if (simboloInicio && simboloAtras1 && simboloAtras2) {
+            let acertou = this.condicaoJogadas(simboloInicio, simboloAtras1, simboloAtras2)
+
+            if ((acertou) &&
+                !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                !this.pesquisaIdSimbolo(linha, coluna - 1, this.selecioneId(linha, coluna - 1)) &&
+                !this.pesquisaIdSimbolo(linha, coluna - 2, this.selecioneId(linha, coluna - 2))) {
+
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna - 1))
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna - 2))
+            } else {
+                acertou = false;
+            }
+            return acertou
+        }
+    },
+
+    verificarJogadaMesmaColunaCimaBaixo(linha, coluna) {
+        if ((matriz[linha - 1] === undefined) || (matriz[linha + 1] === undefined)) {
+            return false
+        } else {
+            let simboloInicio = matriz[linha][coluna];
+            let simboloCima = matriz[linha - 1][coluna];
+            let simboloBaixo = matriz[linha + 1][coluna];
+
+            if (simboloInicio && simboloCima && simboloBaixo) {
+                let acertou = this.condicaoJogadas(simboloInicio, simboloCima, simboloBaixo)
+
+                if ((acertou) &&
+                    !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha - 1, coluna, this.selecioneId(linha - 1, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha + 1, coluna, this.selecioneId(linha + 1, coluna))) {
+
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 1, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 1, coluna))
+                }
+                return acertou
+            }
+        }
+    },
+
+    verificarJogadaMesmaColunaCima(linha, coluna) {
+        if ((matriz[linha - 1] === undefined) || (matriz[linha - 2] === undefined)) {
+            return false
+        } else {
+            let simboloInicio = matriz[linha][coluna];
+            let simboloCima1 = matriz[linha - 1][coluna];
+            let simboloCima2 = matriz[linha - 2][coluna];
+
+            if (simboloInicio && simboloCima1 && simboloCima2) {
+                let acertou = this.condicaoJogadas(simboloInicio, simboloCima1, simboloCima2)
+
+                if ((acertou) &&
+                    !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha - 1, coluna, this.selecioneId(linha - 1, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha - 2, coluna, this.selecioneId(linha - 2, coluna))) {
+
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 1, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 2, coluna))
+                }
+                return acertou
+            }
+        }
+    },
+
+    verificarJogadaMesmaColunaBaixo(linha, coluna) {
+        if ((matriz[linha + 1] === undefined) || (matriz[linha + 2] === undefined)) {
+            return false
+        } else {
+            let simboloInicio = matriz[linha][coluna];
+            let simboloBaixo1 = matriz[linha + 1][coluna];
+            let simboloBaixo2 = matriz[linha + 2][coluna];
+
+            if (simboloInicio && simboloBaixo1 && simboloBaixo2) {
+                let acertou = this.condicaoJogadas(simboloInicio, simboloBaixo1, simboloBaixo2)
+
+                if ((acertou) &&
+                    !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha + 1, coluna, this.selecioneId(linha + 1, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha + 2, coluna, this.selecioneId(linha + 2, coluna))) {
+
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 1, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 2, coluna))
+                }
+                return acertou
+            }
+        }
+    },
+
+    verificarJogadaMesmaDiagonalBaixoFrente(linha, coluna) {
+        if ((matriz[linha + 1] === undefined) || (matriz[linha + 2] === undefined)) {
+            return false
+        } else {
+            let simboloInicio = matriz[linha][coluna];
+            let simboloBaixoFrente1 = matriz[linha + 1][coluna + 1];
+            let simboloBaixoFrente2 = matriz[linha + 2][coluna + 2];
+
+            if (simboloInicio && simboloBaixoFrente1 && simboloBaixoFrente2) {
+                let acertou = this.condicaoJogadas(simboloInicio, simboloBaixoFrente1, simboloBaixoFrente2)
+
+                if ((acertou) &&
+                    !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha + 1, coluna + 1, this.selecioneId(linha + 1, coluna + 1)) &&
+                    !this.pesquisaIdSimbolo(linha + 2, coluna + 2, this.selecioneId(linha + 2, coluna + 2))) {
+
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 1, coluna + 1))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 2, coluna + 2))
+                }
+                return acertou
+            }
+        }
+    },
+
+    verificarJogadaMesmaDiagonalBaixoAtras(linha, coluna) {
+        if ((matriz[linha + 1] === undefined) || (matriz[linha + 2] === undefined)) {
+            return false
+        } else {
+            let simboloInicio = matriz[linha][coluna];
+            let simboloBaixoAtras1 = matriz[linha + 1][coluna - 1];
+            let simboloBaixoAtras2 = matriz[linha + 2][coluna - 2];
+
+            if (simboloInicio && simboloBaixoAtras1 && simboloBaixoAtras2) {
+                let acertou = this.condicaoJogadas(simboloInicio, simboloBaixoAtras1, simboloBaixoAtras2)
+
+                if ((acertou) &&
+                    !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha + 1, coluna - 1, this.selecioneId(linha + 1, coluna - 1)) &&
+                    !this.pesquisaIdSimbolo(linha + 2, coluna - 2, this.selecioneId(linha + 2, coluna - 2))) {
+
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 1, coluna - 1))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 2, coluna - 2))
+                }
+                return acertou
+            }
+        }
+    },
+
+    verificarJogadaMesmaDiagonalCimaAtras(linha, coluna) {
+        if ((matriz[linha - 1] === undefined) || (matriz[linha - 2] === undefined)) {
+            return false
+        } else {
+            let simboloInicio = matriz[linha][coluna];
+            let simboloCimaAtras1 = matriz[linha - 1][coluna - 1];
+            let simboloCimaAtras2 = matriz[linha - 2][coluna - 2];
+
+            if (simboloInicio && simboloCimaAtras1 && simboloCimaAtras2) {
+                let acertou = this.condicaoJogadas(simboloInicio, simboloCimaAtras1, simboloCimaAtras2)
+
+                if ((acertou) &&
+                    !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha - 1, coluna - 1, this.selecioneId(linha - 1, coluna - 1)) &&
+                    !this.pesquisaIdSimbolo(linha - 2, coluna - 2, this.selecioneId(linha - 2, coluna - 2))) {
+
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 1, coluna - 1))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 2, coluna - 2))
+                }
+                return acertou
+            }
+        }
+    },
+
+    verificarJogadaMesmaDiagonalCimaFrente(linha, coluna) {
+        if ((matriz[linha - 1] === undefined) || (matriz[linha - 2] === undefined)) {
+            return false
+        } else {
+            let simboloInicio = matriz[linha][coluna];
+            let simboloCimaFrente1 = matriz[linha - 1][coluna + 1];
+            let simboloCimaFrente2 = matriz[linha - 2][coluna + 2];
+
+            if (simboloInicio && simboloCimaFrente1 && simboloCimaFrente2) {
+                let acertou = this.condicaoJogadas(simboloInicio, simboloCimaFrente1, simboloCimaFrente2)
+
+                if ((acertou) &&
+                    !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha - 1, coluna + 1, this.selecioneId(linha - 1, coluna + 1)) &&
+                    !this.pesquisaIdSimbolo(linha - 2, coluna + 2, this.selecioneId(linha - 2, coluna + 2))) {
+
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 1, coluna + 1))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 2, coluna + 2))
+                }
+                return acertou
+            }
+        }
+    },
+
+    verificarJogadaMesmaDiagonalMeiofrente(linha, coluna) {
+        if ((matriz[linha + 1] === undefined) || (matriz[linha - 1] === undefined)) {
+            return false
+        } else {
+            let simboloInicio = matriz[linha][coluna];
+            let simboloCimaAtras1 = matriz[linha - 1][coluna - 1];
+            let simboloBaixoFrente2 = matriz[linha + 1][coluna + 1];
+            if (simboloInicio && simboloCimaAtras1 && simboloBaixoFrente2) {
+                let acertou = this.condicaoJogadas(simboloInicio, simboloCimaAtras1, simboloBaixoFrente2)
+
+                if ((acertou) &&
+                    !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha - 1, coluna - 1, this.selecioneId(linha - 1, coluna - 1)) &&
+                    !this.pesquisaIdSimbolo(linha + 1, coluna + 1, this.selecioneId(linha + 1, coluna + 1))) {
+
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 1, coluna - 1))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 1, coluna + 1))
+                }
+                return acertou
+            }
+        }
+    },
+
+    verificarJogadaMesmaDiagonalMeioAtras(linha, coluna) {
+        if ((matriz[linha + 1] === undefined) || (matriz[linha - 1] === undefined)) {
+            return false
+        } else {
+            let simboloInicio = matriz[linha][coluna];
+            let simboloCimaAtras1 = matriz[linha + 1][coluna - 1];
+            let simboloBaixoFrente2 = matriz[linha - 1][coluna + 1];
+            if (simboloInicio && simboloCimaAtras1 && simboloBaixoFrente2) {
+                let acertou = this.condicaoJogadas(simboloInicio, simboloCimaAtras1, simboloBaixoFrente2)
+
+                if ((acertou) &&
+                    !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha + 1, coluna - 1, this.selecioneId(linha + 1, coluna - 1)) &&
+                    !this.pesquisaIdSimbolo(linha - 1, coluna + 1, this.selecioneId(linha - 1, coluna + 1))) {
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 1, coluna - 1))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 1, coluna + 1))
+                }
+                return acertou
+            }
+        }
+    },
+
+    verificarJogadaMesmaDiagonalCimaFrenteBaixoAtras(linha, coluna) {
+        if ((matriz[linha + 1] === undefined) || (matriz[linha - 1] === undefined)) {
+            return false
+        } else {
+            let simboloInicio = matriz[linha][coluna];
+            let simboloCimaFrente1 = matriz[linha - 1][coluna + 1];
+            let simboloBaixoAtras2 = matriz[linha + 1][coluna - 1];
+            if (simboloInicio && simboloCimaFrente1 && simboloBaixoAtras2) {
+                let acertou = this.condicaoJogadas(simboloInicio, simboloCimaFrente1, simboloBaixoAtras2)
+
+                if ((acertou) &&
+                    !this.pesquisaIdSimbolo(linha, coluna, this.selecioneId(linha, coluna)) &&
+                    !this.pesquisaIdSimbolo(linha - 1, coluna + 1, this.selecioneId(linha - 1, coluna + 1)) &&
+                    !this.pesquisaIdSimbolo(linha + 1, coluna - 1, this.selecioneId(linha + 1, coluna - 1))) {
+
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 1, coluna + 1))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 1, coluna - 1))
+                }
+                return acertou
+            }
+        }
+    },
+
+
+
+
+
+
+
+
+
+    // check_winning_sequences(symbol) {
+    //     for (i in this.winning_sequences) {
+    //         if (
+    //             this.boardx4[this.winning_sequences[i][0]] == symbol &&
+    //             this.boardx4[this.winning_sequences[i][1]] == symbol &&
+    //             this.boardx4[this.winning_sequences[i][2]] == symbol &&
+    //             this.boardx4[this.winning_sequences[i][3]] == symbol &&
+    //             this.boardx4[this.winning_sequences[i][4]] == symbol &&
+    //             this.boardx4[this.winning_sequences[i][5]] == symbol
+    //         ) {
+    //             if (symbol == 'O') {
+    //                 p1.innerHTML = `${this.win1++}`
+    //             }
+    //             else if (symbol == 'X') {
+    //                 p2.innerHTML = `${this.win2++}`
+    //             }
+    //             return i;
+    //         }
+    //     };
+    //     return -1;
+    // },
 
     game_is_over() {
         this.gameover = true;
-        // alert(`GAME OVER - Jogador: ${this.symbol}`);
     },
 
     is_game_over() {
-        if (!!x4) return !this.boardx4.includes('');
+        return !matriz.includes();
     },
 
     start() {
-        if (!!x4) this.boardx4.fill('');
+        // matriz.fill();
         this.draw();
         this.gameover = false;
+
     },
 
     restart() {
         if (this.is_game_over() || this.gameover) {
             this.start();
-            alert('this game has been restarted!')
-        } else if (confirm('Are you sure you want to restart this game?')) {
+        } else if (confirm('Você tem certeza que quer reiniciar essa partida?')) {
             this.start();
-            alert('this game has been restarted!')
+            alert('Este jogo foi reiniciado!')
         }
     },
 
     draw() {
-        if (!!x4) this.container_element.innerHTML = this.boardx4.map((element, index) => `<div onclick="tic_tac_toe.make_play('${index}')"> ${element} </div>`).reduce((content, current) => content + current);
+        let tabuleiro = '';
+        let id = 0;
+        for (var x in matriz) {
+            for (var y in matriz) {
+                for (var key in matriz[x][y]) {
+                    tabuleiro += `<div id=l${id++} onclick="tic_tac_toe.make_play({${x}:${y}})">${matriz[x][y][key] ? matriz[x][y][key] : ''}</div>`;
+                }
+            }
+        }
+        this.container_element.innerHTML = tabuleiro;
     },
 };
