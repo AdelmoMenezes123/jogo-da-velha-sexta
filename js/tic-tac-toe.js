@@ -88,14 +88,10 @@ const tic_tac_toe = {
             coluna = position[key];
 
             for (keyObj in matriz[linha][coluna]) {
-                if (!matriz[linha][coluna][keyObj]) {
+                if (!matriz[linha][coluna][keyObj] && !this.gameover) {
                     const currentSymbol = this.symbols.options[this.symbols.turn_index];
                     matriz[linha][coluna] = currentSymbol;
                     this.draw();
-
-                    // jogadores[currentSymbol].push(position)
-                    // console.log(jogadores[currentSymbol])
-
                     let sequenci_win = this.verificarJogada(parseInt(linha), parseInt(coluna));
                     if (sequenci_win && jogadores[currentSymbol].length >= 5) {
                         console.table(sequenci_win)
@@ -103,9 +99,31 @@ const tic_tac_toe = {
                         for (i in jogadores[currentSymbol]) {
                             this.addClassWinner(jogadores[currentSymbol][i])
                         }
-                    } else {
+
+                        if (currentSymbol == 'O') {
+                            p1.innerHTML = `${this.win1++}`
+                        }
+                        else if (currentSymbol == 'X') {
+                            p2.innerHTML = `${this.win2++}`
+                        }
+
+                        if (!this.is_game_over()) {
+                            this.game_is_over();
+                        }
+
+                    } /*else if (!sequenci_win && jogadores[currentSymbol].length <= 5) {
+                        if (!this.is_game_over()) {
+                            this.game_is_over();
+                            p1.innerHTML = `Deu Velha ${this.win1++}`
+                            p2.innerHTML = `Deu Velha ${this.win2++}`
+                        }
+                    }*/ else {
                         this.symbols.change()
+                        console.log(this.verificaVelha())
                     }
+
+                } else {
+                    return false
                 }
             }
         }
@@ -115,35 +133,6 @@ const tic_tac_toe = {
 
         // if ((!!x4) && (this.gameover || matriz[position] !== '')) return false;
 
-        // else if ((!!x5) && (this.gameover || this.boardx5[position] !== '')) return false;
-        // else if ((!!x6) && (this.gameover || this.boardx6[position] !== '')) return false;
-
-        // const currentSymbol = this.symbols.options[this.symbols.turn_index];
-        // matriz[linha,coluna] = currentSymbol;
-
-        // if (!!x4) this.boardx4[position] = currentSymbol;
-        // else if (!!x5) this.boardx5[position] = currentSymbol;
-        // else if (!!x6) this.boardx6[position] = currentSymbol;
-
-        // this.draw();
-
-        // const winning_sequences_index = this.check_winning_sequences(currentSymbol);
-
-        // if (this.is_game_over()) {
-        //     this.game_is_over();
-        //     p1.innerHTML = `Deu Velha ${this.win1++}`
-        //     p2.innerHTML = `Deu Velha ${this.win2++}`
-        // }
-
-        // if (winning_sequences_index >= 0) {
-
-        // this.game_is_over();
-
-        // this.stylize_winner_sequence(this.winning_sequences[winning_sequences_index]);
-        // } else {
-        // this.symbols.change();
-        // }
-        // return true;
     },
 
     verificarJogada(linha, coluna) {
@@ -167,6 +156,8 @@ const tic_tac_toe = {
         if (this.verificaDiagonal_1(linha, coluna)) { acertou = matriz }
         else if (this.verificaColunaLinha_1(linha, coluna)) { acertou = matriz }
         else if (this.verificaColuna_2(linha, coluna)) { acertou = matriz }
+        else if (this.verificaColunaDiagonal_1(linha, coluna)) { acertou = matriz }
+
         return acertou
     },
 
@@ -203,6 +194,20 @@ const tic_tac_toe = {
     addClassWinner(id) {
         document.getElementById(id)
             .classList.add('winner')
+    },
+
+    verificaVelha() {
+        var velha = true;
+        let posicoes = document.querySelectorAll('.game > div')
+        posicoes.forEach(i => {
+            const filterVazio = [i.innerHTML].filter(valor =>{ valor.includes('') })
+            // if (filterVazio.includes('')) {
+                // velha = true
+            // } else {
+                // velha = false
+            // }
+        })
+        // return velha
     },
 
     verificarJogadaMesmaLinhaFrenteAtras(linha, coluna) {
@@ -604,44 +609,47 @@ const tic_tac_toe = {
         }
     },
 
+    verificaColunaDiagonal_1(linha, coluna) {
+        if ((matriz[linha - 1] === undefined) || (matriz[linha - 2] === undefined)) {
+            return false
+        } else {
+            let condicao1 = matriz[linha][coluna];
+            let condicao2 = matriz[linha - 1][coluna];
+            let condicao3 = matriz[linha - 2][coluna];
+            let condicao4 = matriz[linha - 1][coluna + 1];
+            let condicao5 = matriz[linha - 2][coluna + 2];
 
+            if (condicao1 && condicao2 && condicao3 && condicao4 && condicao5) {
+                let acertou = this.condicaoJogadas_5(condicao1, condicao2, condicao3, condicao4, condicao5)
 
+                if (acertou) {
+                    jogadores[matriz[linha][coluna]] = []
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 1, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 2, coluna))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 1, coluna + 1))
+                    jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 2, coluna + 2))
 
+                }
+                return acertou
+            }
+        }
+    },
 
-    // check_winning_sequences(symbol) {
-    //     for (i in this.winning_sequences) {
-    //         if (
-    //             this.boardx4[this.winning_sequences[i][0]] == symbol &&
-    //             this.boardx4[this.winning_sequences[i][1]] == symbol &&
-    //             this.boardx4[this.winning_sequences[i][2]] == symbol &&
-    //             this.boardx4[this.winning_sequences[i][3]] == symbol &&
-    //             this.boardx4[this.winning_sequences[i][4]] == symbol &&
-    //             this.boardx4[this.winning_sequences[i][5]] == symbol
-    //         ) {
-    //             if (symbol == 'O') {
-    //                 p1.innerHTML = `${this.win1++}`
-    //             }
-    //             else if (symbol == 'X') {
-    //                 p2.innerHTML = `${this.win2++}`
-    //             }
-    //             return i;
-    //         }
-    //     };
-    //     return -1;
-    // },
 
     game_is_over() {
-        this.gameover = true;
+        return this.gameover = true;
     },
 
     is_game_over() {
-        return !matriz.includes();
+        return this.gameover = false;
+        //!matriz.includes();
     },
 
     start() {
         // matriz.fill();
         this.draw();
-        this.gameover = false;
+        // this.gameover = false;
 
     },
 
