@@ -166,6 +166,7 @@ const tic_tac_toe = {
 
         if (this.verificaDiagonal_1(linha, coluna)) { acertou = matriz }
         else if (this.verificaColunaLinha_1(linha, coluna)) { acertou = matriz }
+        else if (this.verificaColuna_2(linha, coluna)) { acertou = matriz }
         return acertou
     },
 
@@ -543,7 +544,6 @@ const tic_tac_toe = {
                     jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 1, coluna + 1))
                     jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 1, coluna - 1))
                     jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 1, coluna + 1))
-                    console.log(jogadores[matriz[linha][coluna]])
 
                 }
                 return acertou
@@ -574,7 +574,6 @@ const tic_tac_toe = {
                     jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna + 1))
                     jogadores[matriz[linha][coluna]].push(this.selecioneId(linha - 1, coluna))
                     jogadores[matriz[linha][coluna]].push(this.selecioneId(linha + 1, coluna))
-                    console.log(jogadores[matriz[linha][coluna]])
 
                 }
                 return acertou
@@ -582,6 +581,28 @@ const tic_tac_toe = {
         }
     },
 
+    verificaColuna_2(linha, coluna) {
+        let condicao1 = matriz[linha][coluna];
+        let condicao2 = matriz[linha][coluna - 1];
+        let condicao3 = matriz[linha][coluna - 2];
+        let condicao4 = matriz[linha][coluna + 1];
+        let condicao5 = matriz[linha][coluna + 2];
+
+        if (condicao1 && condicao2 && condicao3 && condicao4 && condicao5) {
+            let acertou = this.condicaoJogadas_5(condicao1, condicao2, condicao3, condicao4, condicao5)
+
+            if (acertou) {
+                jogadores[matriz[linha][coluna]] = []
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna))
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna - 1))
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna - 2))
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna + 1))
+                jogadores[matriz[linha][coluna]].push(this.selecioneId(linha, coluna + 2))
+
+            }
+            return acertou
+        }
+    },
 
 
 
