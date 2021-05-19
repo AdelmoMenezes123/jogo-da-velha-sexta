@@ -14,6 +14,8 @@ var jogadores = {
     'X': []
 }
 
+var jogadas = [];
+
 var matriz = []
 
 function matriz4x4() {
@@ -73,8 +75,6 @@ const tic_tac_toe = {
     // FUNCTIONS
     init(container) {
         this.container_element = container;
-        console.log(matriz)
-
     },
 
     make_play(position) {
@@ -111,15 +111,14 @@ const tic_tac_toe = {
                             this.game_is_over();
                         }
 
-                    } /*else if (!sequenci_win && jogadores[currentSymbol].length <= 5) {
+                    } else if (this.verificaVelha(position)) {
                         if (!this.is_game_over()) {
                             this.game_is_over();
                             p1.innerHTML = `Deu Velha ${this.win1++}`
                             p2.innerHTML = `Deu Velha ${this.win2++}`
                         }
-                    }*/ else {
+                    } else {
                         this.symbols.change()
-                        console.log(this.verificaVelha())
                     }
 
                 } else {
@@ -196,18 +195,16 @@ const tic_tac_toe = {
             .classList.add('winner')
     },
 
-    verificaVelha() {
-        var velha = true;
-        let posicoes = document.querySelectorAll('.game > div')
-        posicoes.forEach(i => {
-            const filterVazio = [i.innerHTML].filter(valor =>{ valor.includes('') })
-            // if (filterVazio.includes('')) {
-                // velha = true
-            // } else {
-                // velha = false
-            // }
-        })
-        // return velha
+    verificaVelha(posicao) {
+        var velha = false;
+        const tamanho = matriz.length * matriz.length;
+        jogadas.push(posicao)
+        if (jogadas.length == tamanho) {
+            jogadas = []
+            velha = true
+        }
+
+        return velha;
     },
 
     verificarJogadaMesmaLinhaFrenteAtras(linha, coluna) {
@@ -647,9 +644,22 @@ const tic_tac_toe = {
     },
 
     start() {
-        // matriz.fill();
+
+        // for (var x in matriz) {
+        //     for (var y in matriz) {
+        //         for (var key in matriz[x][y]) {
+        //             // console.log(matriz[x][y][key] = null)
+        //         }
+        //     }
+        // }
+        
+        jogadas = [];
+        jogadores['O'] = []
+        jogadores['X'] = []
+        // this.container_element.innerHTML = null
+        
+        this.gameover = false;
         this.draw();
-        // this.gameover = false;
 
     },
 
