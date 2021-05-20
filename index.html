@@ -27,11 +27,14 @@
 
 
       <div class="from-group mt-4">
-         <label for="campo">Qual campo voce quer bloquear?</label>
-         <input id="campo" type="text" campo>
-         <button class="btn">Bloquear casa</button>
+         <label for="">Qual campo voce quer bloquear?</label>
+         
+         <input type="number" class="campo" id="campo1" placeholder="Linha" type="text" >
+         <input type="number" class="campo" id="campo2" placeholder="Coluna" type="text">
+         <button class="btn" onclick="bloquear()">Bloquear casa</button>
       </div>
 
+   <!-- <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script> -->
    <script src="js/tic-tac-toe.js"></script>
    <script>
       function query(params) {
@@ -39,7 +42,6 @@
       }
       tic_tac_toe.init(document.querySelector('.game'));
    </script>
-   <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
 
 </body>
 

@@ -55,7 +55,7 @@ body {
   padding: 10px 20px
 }
 
-#campo{
+.campo{
   width: 100px;
   margin: .7rem auto;
   padding: .4rem 1rem;
@@ -63,7 +63,7 @@ body {
   border-radius: 9px;
 }
 
-#campo:focus{
+.campo:focus{
   border-radius: 9px;
   outline: 0;
   outline: none;

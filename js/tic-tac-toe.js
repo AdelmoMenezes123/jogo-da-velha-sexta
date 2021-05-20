@@ -1,14 +1,25 @@
 // TIC TAC TOE
 
-x4 = document.querySelector('.x4')
-x5 = document.querySelector('.x5')
-x6 = document.querySelector('.x6')
+var x4 = document.querySelector('.x4')
+var x5 = document.querySelector('.x5')
+var x6 = document.querySelector('.x6')
 
-p1 = document.getElementById('player-1')
-p2 = document.getElementById('player-2')
+var p1 = document.getElementById('player-1')
+var p2 = document.getElementById('player-2')
 
-v1 = document.getElementById('velha-1')
-v2 = document.getElementById('velha-2')
+var v1 = document.getElementById('velha-1')
+var v2 = document.getElementById('velha-2')
+
+// var campo1 = document.getElementById("campo1");
+// var campo2 = document.getElementById("campo1");
+
+function bloquear() {
+    // if (campo1 && campo2) {
+        // console.log(campo1)
+        // console.log(campo2)
+    // }
+}
+
 var me = this;
 
 var jogadores = {
@@ -652,12 +663,12 @@ const tic_tac_toe = {
     },
 
     // restart() {
-        // if (this.is_game_over() || this.gameover) {
-            // this.start();
-        // } else if (confirm('Você tem certeza que quer reiniciar essa partida?')) {
-            // this.start();
-            // alert('Este jogo foi reiniciado!')
-        // }
+    // if (this.is_game_over() || this.gameover) {
+    // this.start();
+    // } else if (confirm('Você tem certeza que quer reiniciar essa partida?')) {
+    // this.start();
+    // alert('Este jogo foi reiniciado!')
+    // }
     // },
 
     draw() {
