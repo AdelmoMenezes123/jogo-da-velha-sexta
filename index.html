@@ -11,33 +11,24 @@
 
 <body>
 
-
-   <div class='game'></div>
-   <button class="btn" onclick="tic_tac_toe.restart()" title="Restart this game">Restart</button>
-
-
-   <div class="area">
-      <h1>Player 1</h1>
-      <div id="player-1">
-         Winning:
-      </div>
-      <div class="separe"></div>
-      <h1>Player 2</h1>
-      <div id="player-2">
-         Winning:
-      </div>
+   <div class="placar">
+      <label class="label">Jogador 1: [<span id="player-1"></span>]</label>
+      <label class="label">Jogador 2: [<span id="player-2"></span>]</label>
    </div>
+   <div class='game'></div>
+   <div class="d-flex">
+      <button class="btn" onclick="matriz4x4()" x4>4X4</button>
+      <button class="btn" onclick="matriz5x5()" x5>5X5</button>
+      <button class="btn" onclick="matriz6x6()" x6>6X6</button>
+   </div>
+   <!-- <button class="btn" onclick="tic_tac_toe.restart()" title="Restart this game">Restart</button> -->
+
 
    <div class="campoform">
       <div class="from-group">
          <label for="">Qual campo voce quer bloquear?</label>
          <input type="text" campo>
       </div>
-
-      <span>Qual tabela? </span>
-      <button class="btn" onclick="matriz4x4()" x4>4X4</button>
-      <button class="btn" onclick="matriz5x5()" x5>5X5</button>
-      <button class="btn" onclick="matriz6x6()" x6>6X6</button>
    </div>
 
    <script src="js/tic-tac-toe.js"></script>
@@ -45,7 +36,7 @@
       function query(params) {
          document.querySelector(params).click()
       }
-         tic_tac_toe.init(document.querySelector('.game'));
+      tic_tac_toe.init(document.querySelector('.game'));
    </script>
 
 </body>

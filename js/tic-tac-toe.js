@@ -640,37 +640,24 @@ const tic_tac_toe = {
 
     is_game_over() {
         return this.gameover = false;
-        //!matriz.includes();
     },
 
     start() {
-
-        // for (var x in matriz) {
-        //     for (var y in matriz) {
-        //         for (var key in matriz[x][y]) {
-        //             // console.log(matriz[x][y][key] = null)
-        //         }
-        //     }
-        // }
-        
         jogadas = [];
         jogadores['O'] = []
         jogadores['X'] = []
-        // this.container_element.innerHTML = null
-        
         this.gameover = false;
         this.draw();
-
     },
 
-    restart() {
-        if (this.is_game_over() || this.gameover) {
-            this.start();
-        } else if (confirm('Você tem certeza que quer reiniciar essa partida?')) {
-            this.start();
-            alert('Este jogo foi reiniciado!')
-        }
-    },
+    // restart() {
+        // if (this.is_game_over() || this.gameover) {
+            // this.start();
+        // } else if (confirm('Você tem certeza que quer reiniciar essa partida?')) {
+            // this.start();
+            // alert('Este jogo foi reiniciado!')
+        // }
+    // },
 
     draw() {
         let tabuleiro = '';
