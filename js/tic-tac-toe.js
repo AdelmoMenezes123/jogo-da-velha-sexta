@@ -7,6 +7,8 @@ x6 = document.querySelector('.x6')
 p1 = document.getElementById('player-1')
 p2 = document.getElementById('player-2')
 
+v1 = document.getElementById('velha-1')
+v2 = document.getElementById('velha-2')
 var me = this;
 
 var jogadores = {
@@ -69,6 +71,9 @@ const tic_tac_toe = {
     win1: 1,
     win2: 1,
 
+    velha1: 1,
+    velha2: 1,
+
     container_element: null,
     gameover: false,
 
@@ -114,8 +119,8 @@ const tic_tac_toe = {
                     } else if (this.verificaVelha(position)) {
                         if (!this.is_game_over()) {
                             this.game_is_over();
-                            p1.innerHTML = `Deu Velha ${this.win1++}`
-                            p2.innerHTML = `Deu Velha ${this.win2++}`
+                            v1.innerHTML = `${this.velha1++}`
+                            v2.innerHTML = `${this.velha2++}`
                         }
                     } else {
                         this.symbols.change()
@@ -127,10 +132,6 @@ const tic_tac_toe = {
             }
         }
         return true;
-
-
-
-        // if ((!!x4) && (this.gameover || matriz[position] !== '')) return false;
 
     },
 
