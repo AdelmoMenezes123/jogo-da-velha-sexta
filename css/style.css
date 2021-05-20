@@ -7,6 +7,14 @@ body {
   justify-content: center;
 }
 
+.mt-5{
+  margin-top: 3rem;
+}
+
+.mt-4{
+  margin-top: 2rem;
+}
+
 .game {
   width: 100vw;
   height: 100vw;
@@ -45,6 +53,20 @@ body {
   color: white;
   margin-top: 10px;
   padding: 10px 20px
+}
+
+#campo{
+  width: 100px;
+  margin: .7rem auto;
+  padding: .4rem 1rem;
+  border: 3px solid #000;
+  border-radius: 9px;
+}
+
+#campo:focus{
+  border-radius: 9px;
+  outline: 0;
+  outline: none;
 }
 
 .d-flex{
