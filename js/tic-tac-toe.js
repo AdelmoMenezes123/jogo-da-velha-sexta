@@ -9,16 +9,42 @@ var p2 = document.getElementById('player-2')
 
 var v1 = document.getElementById('velha-1')
 var v2 = document.getElementById('velha-2')
-
-// var campo1 = document.getElementById("campo1");
-// var campo2 = document.getElementById("campo1");
+var cont = 0;
 
 function bloquear() {
-    // if (campo1 && campo2) {
-        // console.log(campo1)
-        // console.log(campo2)
-    // }
+    let linha = $("#campo1").val();
+    let coluna = $("#campo2").val();
+
+
+    if (linha && coluna) {
+        let simb = matriz[linha][coluna];
+        if (((matriz.length * matriz.length) == 16) && (simb != 'X') && (simb != 'O') && (simb != 'B')) {
+            if (cont < 2) {
+                matriz[linha][coluna] = 'B';
+                tic_tac_toe.draw()
+                cont += 1;
+            }
+            console.log(cont)
+        } else if (((matriz.length * matriz.length) == 25) && (simb != 'X') && (simb != 'O') && (simb != 'B')) {
+            if (cont < 3) {
+                matriz[linha][coluna] = 'B';
+                tic_tac_toe.draw()
+                cont += 1;
+            }
+            console.log(cont)
+        } else if (((matriz.length * matriz.length) == 36) && (simb != 'X') && (simb != 'O') && (simb != 'B')) {
+            if (cont < 4) {
+                matriz[linha][coluna] = 'B';
+                tic_tac_toe.draw()
+                cont += 1;
+            }
+            console.log(cont)
+        }
+    }
+
 }
+
+$('#bloquear').on('click', bloquear);
 
 var me = this;
 
@@ -658,6 +684,7 @@ const tic_tac_toe = {
         jogadas = [];
         jogadores['O'] = []
         jogadores['X'] = []
+        cont = 0;
         this.gameover = false;
         this.draw();
     },
