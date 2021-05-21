@@ -11,29 +11,44 @@ var v1 = document.getElementById('velha-1')
 var v2 = document.getElementById('velha-2')
 var cont = 0;
 
+var aleatorios = [];
+var jogadas = [];
+var matriz = []
+var jogadores = {
+    'O': [],
+    'X': []
+}
+
+
+
+
 function bloquear() {
     let linha = $("#campo1").val();
     let coluna = $("#campo2").val();
-
-
     if (linha && coluna) {
         let simb = matriz[linha][coluna];
         if (((matriz.length * matriz.length) == 16) && (simb != 'X') && (simb != 'O') && (simb != 'B')) {
             if (cont < 2) {
                 matriz[linha][coluna] = 'B';
                 tic_tac_toe.draw()
+                let posicao = +tic_tac_toe.selecioneId(linha, coluna).replace('l', '')
+                aleatorios.push(posicao)
                 cont += 1;
             }
         } else if (((matriz.length * matriz.length) == 25) && (simb != 'X') && (simb != 'O') && (simb != 'B')) {
             if (cont < 3) {
                 matriz[linha][coluna] = 'B';
                 tic_tac_toe.draw()
+                let posicao = +tic_tac_toe.selecioneId(linha, coluna).replace('l', '')
+                aleatorios.push(posicao)
                 cont += 1;
             }
         } else if (((matriz.length * matriz.length) == 36) && (simb != 'X') && (simb != 'O') && (simb != 'B')) {
             if (cont < 4) {
                 matriz[linha][coluna] = 'B';
                 tic_tac_toe.draw()
+                let posicao = +tic_tac_toe.selecioneId(linha, coluna).replace('l', '')
+                aleatorios.push(posicao)
                 cont += 1;
             }
         }
@@ -42,36 +57,29 @@ function bloquear() {
 }
 $('#bloquear').on('click', bloquear);
 
-var aleatorios = [];
-
 function aleatorio() {
 
     var max = $(".game").find('div').length;
     var min = 1;
     var clicou = false;
-
-    while (!clicou) {
+    var flag = false;
+    var tamanho = matriz.length * matriz.length
+    var tamanhoCasas =aleatorios.length
+    console.log(tamanho)
+    console.log(tamanhoCasas)
+    while (!clicou && !flag) {
         let index = Math.floor(Math.random() * (max - min) + min);
         if (!aleatorios.includes(index)) {
             $(`#l${index}`).click();
             clicou = true;
-            aleatorios.push(index);
+        }
+        if ((tamanho == tamanhoCasas)) {
+            flag = true
         }
     }
 }
 
 $('#aleatorio').on('click', aleatorio);
-
-var me = this;
-
-var jogadores = {
-    'O': [],
-    'X': []
-}
-
-var jogadas = [];
-
-var matriz = []
 
 function matriz4x4() {
     matriz = [];
@@ -134,7 +142,6 @@ const tic_tac_toe = {
     },
 
     make_play(position) {
-        console.log(position)
         var linha;
         var coluna;
 
@@ -144,6 +151,8 @@ const tic_tac_toe = {
 
             for (keyObj in matriz[linha][coluna]) {
                 if (!matriz[linha][coluna][keyObj] && !this.gameover) {
+                    let posicao = +tic_tac_toe.selecioneId(linha, coluna).replace('l', '')
+                    aleatorios.push(posicao)
                     const currentSymbol = this.symbols.options[this.symbols.turn_index];
                     matriz[linha][coluna] = currentSymbol;
                     this.draw();
