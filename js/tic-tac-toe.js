@@ -40,8 +40,27 @@ function bloquear() {
     }
 
 }
-
 $('#bloquear').on('click', bloquear);
+
+var aleatorios = [];
+
+function aleatorio() {
+
+    var max = $(".game").find('div').length;
+    var min = 1;
+    var clicou = false;
+
+    while (!clicou) {
+        let index = Math.floor(Math.random() * (max - min) + min);
+        if (!aleatorios.includes(index)) {
+            $(`#l${index}`).click();
+            clicou = true;
+            aleatorios.push(index);
+        }
+    }
+}
+
+$('#aleatorio').on('click', aleatorio);
 
 var me = this;
 
@@ -81,14 +100,12 @@ function matriz6x6() {
     matriz.forEach(linha => {
         linha.push({ 4: null }, { 5: null });
     });
-
     matriz.push([{ 0: null }, { 1: null }, { 2: null }, { 3: null }, { 4: null }, { 5: null }]);
     matriz.push([{ 0: null }, { 1: null }, { 2: null }, { 3: null }, { 4: null }, { 5: null }]);
     document.querySelector('.game').classList.add('x6');
     document.querySelector('.game').classList.remove('x5', 'x4')
     tic_tac_toe.start();
 }
-
 
 const tic_tac_toe = {
 
@@ -117,10 +134,9 @@ const tic_tac_toe = {
     },
 
     make_play(position) {
+        console.log(position)
         var linha;
         var coluna;
-
-        // let obj = JSON.stringify(position).replace(/"/g, "")
 
         for (key in position) {
             linha = key;
@@ -687,6 +703,7 @@ const tic_tac_toe = {
         jogadas = [];
         jogadores['O'] = []
         jogadores['X'] = []
+        aleatorios = []
         cont = 0;
         this.gameover = false;
         this.draw();
