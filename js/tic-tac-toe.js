@@ -24,21 +24,18 @@ function bloquear() {
                 tic_tac_toe.draw()
                 cont += 1;
             }
-            console.log(cont)
         } else if (((matriz.length * matriz.length) == 25) && (simb != 'X') && (simb != 'O') && (simb != 'B')) {
             if (cont < 3) {
                 matriz[linha][coluna] = 'B';
                 tic_tac_toe.draw()
                 cont += 1;
             }
-            console.log(cont)
         } else if (((matriz.length * matriz.length) == 36) && (simb != 'X') && (simb != 'O') && (simb != 'B')) {
             if (cont < 4) {
                 matriz[linha][coluna] = 'B';
                 tic_tac_toe.draw()
                 cont += 1;
             }
-            console.log(cont)
         }
     }
 
@@ -139,7 +136,7 @@ const tic_tac_toe = {
                         console.table(sequenci_win)
 
                         for (i in jogadores[currentSymbol]) {
-                            this.addClassWinner(jogadores[currentSymbol][i])
+                            this.addClassWinner(jogadores[currentSymbol][i]);
                         }
 
                         if (currentSymbol == 'O') {
@@ -233,11 +230,17 @@ const tic_tac_toe = {
             .classList.add('winner')
     },
 
+    addClassWinner2(id) {
+        document.getElementById(id)
+            .classList.add('winner2')
+    },
+
     verificaVelha(posicao) {
         var velha = false;
         const tamanho = matriz.length * matriz.length;
+
         jogadas.push(posicao)
-        if (jogadas.length == tamanho) {
+        if (jogadas.length == (tamanho - cont)) {
             jogadas = []
             velha = true
         }

@@ -79,7 +79,7 @@ body {
 }
 
 .game>div.winner2 {
-  color: blue;
+  background: blue;
 }
 
 .separe {
